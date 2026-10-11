@@ -38,3 +38,12 @@ The seed generator is intended for a fresh schema. The data is synthetic and inc
 - Payments are separate rows so partial payments and failed attempts are representable.
 - Payment-state trigger, utilization view, indexes and integrity constraints demonstrate DBMS features.
 - This is an academic prototype: no real charger hardware or payment provider is connected.
+
+- ## Team contributions
+| Member | ID | Contribution |
+|---|---|---|
+| Raghav Mithinti | Requirements gathering, ER/EER diagrams and relational database design |
+| Aaditya Rajput | SQL schema creation, constraints, relationships and seed/sample data |
+| Akhil Thindi | Flask backend, routes, API handling and application logic |
+| Samrat Chaturvedi | Frontend development (HTML/CSS/JavaScript), UI design and integration with Flask |
+| Kartikeya Srivastava | Testing and debugging, test reports, project documentation and final presentation |
