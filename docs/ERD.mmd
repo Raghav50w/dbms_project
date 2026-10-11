@@ -1,0 +1,15 @@
+erDiagram
+ DRIVERS ||--o{ VEHICLES : owns
+ DRIVERS ||--o{ RESERVATIONS : makes
+ VEHICLES ||--o{ RESERVATIONS : used_for
+ STATIONS ||--o{ CHARGING_PORTS : contains
+ STATIONS ||--o{ TARIFFS : defines
+ CHARGING_PORTS ||--o{ RESERVATIONS : reserved_at
+ RESERVATIONS o|--o| CHARGING_SESSIONS : may_start
+ DRIVERS ||--o{ CHARGING_SESSIONS : starts
+ VEHICLES ||--o{ CHARGING_SESSIONS : charges
+ CHARGING_PORTS ||--o{ CHARGING_SESSIONS : hosts
+ TARIFFS ||--o{ CHARGING_SESSIONS : prices
+ CHARGING_SESSIONS ||--o{ METER_READINGS : records
+ CHARGING_SESSIONS ||--o| INVOICES : billed_by
+ INVOICES ||--o{ PAYMENTS : settled_by

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980">
+<rect width="1400" height="980" fill="#f7fafc"/>
+<style>
+.title{font: bold 30px Arial;fill:#15364a}.entity{fill:#fff;stroke:#126e72;stroke-width:2;rx:12}
+.head{fill:#15364a}.headtext{font:bold 16px Arial;fill:#fff}.field{font:13px Arial;fill:#20384b}
+.rel{stroke:#648095;stroke-width:2;fill:none}.label{font:12px Arial;fill:#435b6b}
+</style>
+<text x="40" y="45" class="title">ChargePoint — ER/EER overview</text>
+<!-- Entity boxes -->
+<g id="drivers"><rect class="entity" x="40" y="100" width="230" height="150"/><rect class="head" x="40" y="100" width="230" height="34" rx="10"/><text class="headtext" x="55" y="122">DRIVERS</text><text class="field" x="55" y="158">PK driver_id</text><text class="field" x="55" y="181">email UNIQUE</text><text class="field" x="55" y="204">full_name, phone</text><text class="field" x="55" y="227">created_at, is_active</text></g>
+<g id="vehicles"><rect class="entity" x="350" y="100" width="250" height="170"/><rect class="head" x="350" y="100" width="250" height="34" rx="10"/><text class="headtext" x="365" y="122">VEHICLES</text><text class="field" x="365" y="158">PK vehicle_id</text><text class="field" x="365" y="181">FK driver_id</text><text class="field" x="365" y="204">registration_no UNIQUE</text><text class="field" x="365" y="227">make, model, battery_kwh</text><text class="field" x="365" y="250">connector_type</text></g>
+<g id="stations"><rect class="entity" x="40" y="360" width="230" height="150"/><rect class="head" x="40" y="360" width="230" height="34" rx="10"/><text class="headtext" x="55" y="382">STATIONS</text><text class="field" x="55" y="418">PK station_id</text><text class="field" x="55" y="441">name, address, city</text><text class="field" x="55" y="464">coordinates, is_active</text></g>
+<g id="ports"><rect class="entity" x="350" y="350" width="250" height="170"/><rect class="head" x="350" y="350" width="250" height="34" rx="10"/><text class="headtext" x="365" y="372">CHARGING_PORTS</text><text class="field" x="365" y="408">PK port_id</text><text class="field" x="365" y="431">FK station_id</text><text class="field" x="365" y="454">port_code, connector_type</text><text class="field" x="365" y="477">max_power_kw, status</text><text class="field" x="365" y="500">UNIQUE(station_id, port_code)</text></g>
+<g id="tariffs"><rect class="entity" x="40" y="650" width="230" height="150"/><rect class="head" x="40" y="650" width="230" height="34" rx="10"/><text class="headtext" x="55" y="672">TARIFFS</text><text class="field" x="55" y="708">PK tariff_id</text><text class="field" x="55" y="731">FK station_id</text><text class="field" x="55" y="754">price_per_kwh, service_fee</text><text class="field" x="55" y="777">valid_from, valid_to</text></g>
+<g id="reservations"><rect class="entity" x="690" y="100" width="260" height="190"/><rect class="head" x="690" y="100" width="260" height="34" rx="10"/><text class="headtext" x="705" y="122">RESERVATIONS</text><text class="field" x="705" y="158">PK reservation_id</text><text class="field" x="705" y="181">FK driver_id, vehicle_id, port_id</text><text class="field" x="705" y="204">reserved_period (range)</text><text class="field" x="705" y="227">status, created_at</text><text class="field" x="705" y="250">No-overlap exclusion constraint</text></g>
+<g id="sessions"><rect class="entity" x="1010" y="100" width="330" height="190"/><rect class="head" x="1010" y="100" width="330" height="34" rx="10"/><text class="headtext" x="1025" y="122">CHARGING_SESSIONS</text><text class="field" x="1025" y="158">PK session_id; FK reservation_id (optional)</text><text class="field" x="1025" y="181">FK driver_id, vehicle_id, port_id, tariff_id</text><text class="field" x="1025" y="204">started_at, ended_at, status</text><text class="field" x="1025" y="227">start_meter_kwh, end_meter_kwh</text><text class="field" x="1025" y="250">UNIQUE reservation_id</text></g>
+<g id="readings"><rect class="entity" x="1010" y="390" width="330" height="130"/><rect class="head" x="1010" y="390" width="330" height="34" rx="10"/><text class="headtext" x="1025" y="412">METER_READINGS</text><text class="field" x="1025" y="448">PK reading_id; FK session_id</text><text class="field" x="1025" y="471">recorded_at, meter_kwh</text><text class="field" x="1025" y="494">reading_type</text></g>
+<g id="invoices"><rect class="entity" x="690" y="650" width="260" height="150"/><rect class="head" x="690" y="650" width="260" height="34" rx="10"/><text class="headtext" x="705" y="672">INVOICES</text><text class="field" x="705" y="708">PK invoice_id; FK session_id UNIQUE</text><text class="field" x="705" y="731">FK tariff_id; energy_kwh</text><text class="field" x="705" y="754">price snapshot, service_fee</text><text class="field" x="705" y="777">total_amount, status</text></g>
+<g id="payments"><rect class="entity" x="1010" y="650" width="330" height="150"/><rect class="head" x="1010" y="650" width="330" height="34" rx="10"/><text class="headtext" x="1025" y="672">PAYMENTS</text><text class="field" x="1025" y="708">PK payment_id; FK invoice_id</text><text class="field" x="1025" y="731">amount, payment_method</text><text class="field" x="1025" y="754">payment_reference UNIQUE</text><text class="field" x="1025" y="777">status, paid_at</text></g>
+<!-- Relationships: simplified lines -->
+<path class="rel" d="M270 175 L350 175"/><text class="label" x="285" y="165">1 : N</text>
+<path class="rel" d="M270 435 L350 435"/><text class="label" x="285" y="425">1 : N</text>
+<path class="rel" d="M600 435 L650 435 L650 245 L690 245"/><text class="label" x="610" y="425">1 : N</text>
+<path class="rel" d="M600 185 L650 185 L650 180 L690 180"/><text class="label" x="610" y="174">1 : N</text>
+<path class="rel" d="M950 195 L1010 195"/><text class="label" x="965" y="185">0..1 : 0..1</text>
+<path class="rel" d="M1175 290 L1175 390"/><text class="label" x="1185" y="345">1 : N</text>
+<path class="rel" d="M1175 290 L1175 600 L820 600 L820 650"/><text class="label" x="1000" y="590">1 : 0..1</text>
+<path class="rel" d="M950 725 L1010 725"/><text class="label" x="965" y="715">1 : N</text>
+<path class="rel" d="M155 510 L155 650"/><text class="label" x="165" y="580">1 : N</text>
+<path class="rel" d="M270 725 L330 725 L330 285 L690 285"/><text class="label" x="340" y="710">tariff used by session</text>
+<text x="40" y="900" class="field">Legend: PK = primary key, FK = foreign key. Full attributes and constraints are in sql/schema.sql.</text>
+<text x="40" y="925" class="field">Review cardinalities and the final ERD as a team before submission.</text>
+</svg>

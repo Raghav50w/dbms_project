@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChargePoint | EV Charging</title><link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}"></head>
+<body><header class="hero"><div class="eyebrow">DBMS COURSE PROJECT</div><h1>ChargePoint</h1><p>EV charging reservations, sessions and billing</p></header>
+<main>
+{% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="message {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+{% if db_error %}<div class="message error">Database not connected or schema not loaded: {{ db_error }}</div>{% endif %}
+{% if summary %}<section class="metrics"><article><span>Reservations</span><strong>{{ summary.reservations }}</strong></article><article><span>Sessions</span><strong>{{ summary.sessions }}</strong></article><article><span>Total invoiced</span><strong>₹{{ '%.2f'|format(summary.invoiced) }}</strong></article></section>{% endif %}
+<h2>Charging stations</h2><p class="muted">Booking conflicts are checked by PostgreSQL.</p>
+<section class="grid">{% for s in stations %}<article class="card"><div class="top"><span class="bolt">⚡</span><span class="pill">{{ s.available_ports }}/{{ s.total_ports }} ports available</span></div><h3>{{ s.name }}</h3><p>{{ s.address }}, {{ s.city }}</p><small>Station ID: {{ s.station_id }}</small></article>{% else %}<article class="card"><h3>No station data yet</h3><p>Apply sql/schema.sql and run seed_data.py.</p></article>{% endfor %}</section>
+<section class="booking"><h2>Make a reservation</h2><p class="muted">Use sample IDs. Include a timezone in timestamps, e.g. 2026-11-02 10:00:00+05:30.</p>
+<form method="post" action="{{ url_for('main.reserve') }}">
+<label>Driver ID<input name="driver_id" type="number" min="1" required></label><label>Vehicle ID<input name="vehicle_id" type="number" min="1" required></label><label>Port ID<input name="port_id" type="number" min="1" required></label>
+<label>Start time<input name="starts_at" placeholder="2026-11-02 10:00:00+05:30" required></label><label>End time<input name="ends_at" placeholder="2026-11-02 11:00:00+05:30" required></label><button>Reserve port</button></form>
+<p class="note">Academic prototype. Payments are simulated; no charger hardware is connected. Session, invoice and payment workflows are documented in SQL examples.</p></section>
+</main><footer>ChargePoint · Academic prototype</footer></body></html>
