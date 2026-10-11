@@ -41,7 +41,7 @@ The seed generator is intended for a fresh schema. The data is synthetic and inc
 
 - ## Team contributions
 | Member | Contribution |
-|---|---|---|
+|---|---|
 | Raghav Mithinti | Requirements gathering, ER/EER diagrams and relational database design |
 | Aaditya Rajput | SQL schema creation, constraints, relationships and seed/sample data |
 | Akhil Thindi | Flask backend, routes, API handling and application logic |
