@@ -40,7 +40,7 @@ The seed generator is intended for a fresh schema. The data is synthetic and inc
 - This is an academic prototype: no real charger hardware or payment provider is connected.
 
 - ## Team contributions
-| Member | ID | Contribution |
+| Member | Contribution |
 |---|---|---|
 | Raghav Mithinti | Requirements gathering, ER/EER diagrams and relational database design |
 | Aaditya Rajput | SQL schema creation, constraints, relationships and seed/sample data |
