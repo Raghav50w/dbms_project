@@ -63,9 +63,9 @@ with psycopg.connect(url) as c:
                      VALUES(%s,%s,%s,'start'),(%s,%s,%s,'end')""",
                   (row[0],started,startk,row[0],started+timedelta(minutes=60),endk))
         t=c.execute("SELECT price_per_kwh,service_fee FROM tariffs WHERE tariff_id=%s",(tariff,)).fetchone()
-        inv=c.execute("""INSERT INTO invoices(session_id,tariff_id,energy_kwh,price_per_kwh,service_fee)
-                         VALUES(%s,%s,%s,%s,%s) RETURNING invoice_id,total_amount""",
-                      (row[0],tariff,energy,t[0],t[1])).fetchone()
+        inv=c.execute("""INSERT INTO invoices(session_id,energy_kwh,price_per_kwh,service_fee)
+                         VALUES(%s,%s,%s,%s) RETURNING invoice_id,total_amount""",
+                      (row[0],energy,t[0],t[1])).fetchone()
         if i%4:
             amount=inv[1] if i%5 else max(Decimal("1.00"),inv[1]/2)
             c.execute("""INSERT INTO payments(invoice_id,amount,payment_method,payment_reference,status)

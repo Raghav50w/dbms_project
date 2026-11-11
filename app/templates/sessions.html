@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChargePoint | Sessions &amp; payments</title><link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}"></head>
+<body><header class="hero"><div class="eyebrow">DBMS COURSE PROJECT</div><h1>ChargePoint</h1><p>Charging sessions, invoices and payments</p>
+<nav><a href="{{ url_for('main.index') }}">Stations &amp; reservations</a><a href="{{ url_for('main.sessions') }}">Sessions &amp; payments</a><a href="{{ url_for('main.reports') }}">Reports</a></nav></header>
+<main>
+{% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="message {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+<section class="booking"><h2>Start a session</h2><p class="muted">Operator records the start meter reading and tariff.</p>
+<form method="post" action="{{ url_for('main.start_session') }}">
+<label>Driver ID<input name="driver_id" type="number" min="1" required></label><label>Vehicle ID<input name="vehicle_id" type="number" min="1" required></label><label>Port ID<input name="port_id" type="number" min="1" required></label>
+<label>Tariff ID<input name="tariff_id" type="number" min="1" required></label><label>Start meter (kWh)<input name="start_meter_kwh" type="number" step="0.001" min="0" required></label><button>Start session</button></form></section>
+<section class="booking"><h2>Sessions in progress</h2><p class="muted">Ending a session closes it and creates its invoice in one transaction.</p>
+<table><tr><th>ID</th><th>Driver</th><th>Vehicle</th><th>Station / port</th><th>Started</th><th>Start meter</th><th>End meter (kWh)</th></tr>
+{% for s in active %}<tr><td>{{ s.session_id }}</td><td>{{ s.full_name }}</td><td>{{ s.registration_no }}</td><td>{{ s.station }} / {{ s.port_code }}</td><td>{{ s.started_at.strftime('%Y-%m-%d %H:%M') }}</td><td>{{ s.start_meter_kwh }}</td>
+<td><form class="inline" method="post" action="{{ url_for('main.end_session', session_id=s.session_id) }}"><input name="end_meter_kwh" type="number" step="0.001" required><button>End</button></form></td></tr>
+{% else %}<tr><td colspan="7">No sessions in progress.</td></tr>{% endfor %}</table></section>
+<section class="booking"><h2>Record a payment</h2><p class="muted">Simulated payment. The trigger updates the invoice status.</p>
+<form method="post" action="{{ url_for('main.record_payment') }}">
+<label>Invoice ID<input name="invoice_id" type="number" min="1" required></label><label>Amount (₹)<input name="amount" type="number" step="0.01" min="0.01" required></label>
+<label>Method<select name="payment_method"><option>UPI</option><option>card</option><option>cash</option><option>net_banking</option><option>demo</option></select></label><button>Record payment</button></form></section>
+<section class="booking"><h2>Recent invoices</h2>
+<table><tr><th>Invoice</th><th>Session</th><th>Driver</th><th>Energy (kWh)</th><th>Total (₹)</th><th>Outstanding (₹)</th><th>Status</th></tr>
+{% for i in invoices %}<tr><td>{{ i.invoice_id }}</td><td>{{ i.session_id }}</td><td>{{ i.full_name }}</td><td>{{ i.energy_kwh }}</td><td>{{ i.total_amount }}</td><td>{{ i.outstanding }}</td><td>{{ i.status }}</td></tr>{% endfor %}</table></section>
+</main><footer>ChargePoint · Academic prototype</footer></body></html>

@@ -23,13 +23,13 @@ PostgreSQL 15+, Python 3.11+, Flask, psycopg 3, HTML/CSS, pytest.
 6. Run: `flask --app app.py run --debug`
 7. Visit `http://127.0.0.1:5000`.
 
-The seed generator is intended for a fresh schema. The data is synthetic and includes at least 500 rows across entities. The app currently implements station overview and reservation creation; session, invoice, payment and report workflows are documented and provided as SQL patterns for the team to complete.
+The seed generator is intended for a fresh schema. The data is synthetic and includes at least 500 rows across entities. 
 
 ## Core workflows
-1. Reserve a port for a time window.
-2. Start/end a session and generate an invoice from meter readings.
-3. Record a simulated payment and update invoice settlement status.
-4. Review station utilization, energy, revenue and outstanding invoices.
+1. **Reservation** (`/`): filter stations by city, reserve a port for a time window, cancel a confirmed reservation, delete a cancelled one. PostgreSQL rejects overlapping bookings.
+2. **Session and invoice** (`/sessions`): start a session with a start meter reading and tariff; ending it closes the session, records the end reading and creates the invoice in one transaction. An end reading below the start reading is rejected.
+3. **Payment** (`/sessions`): record a simulated payment; the trigger updates the invoice to unpaid, partially paid or paid. Payments above the outstanding balance are rejected.
+4. **Reporting** (`/reports`): station utilization, monthly revenue, cancellation/no-show rate, session duration (CTE) and outstanding balances.
 
 ## Important design decisions
 - PostgreSQL `tstzrange` plus a GiST exclusion constraint prevents overlapping active reservations for the same port.
@@ -39,11 +39,11 @@ The seed generator is intended for a fresh schema. The data is synthetic and inc
 - Payment-state trigger, utilization view, indexes and integrity constraints demonstrate DBMS features.
 - This is an academic prototype: no real charger hardware or payment provider is connected.
 
-- ## Team contributions
-| Member | Contribution |
-|---|---|
-| Raghav Mithinti | Requirements gathering, ER/EER diagrams and relational database design |
-| Aaditya Rajput | SQL schema creation, constraints, relationships and seed/sample data |
-| Akhil Thindi | Flask backend, routes, API handling and application logic |
-| Samrat Chaturvedi | Frontend development (HTML/CSS/JavaScript), UI design and integration with Flask |
-| Kartikeya Srivastava | Testing and debugging, test reports, project documentation and final presentation |
+## Team contributions
+| Member | ID | Contribution |
+|---|---|---|
+| Raghav Mithinti | 2023A3PS0296H | Requirements gathering, ER/EER diagrams and relational database design |
+| Aaditya Rajput | 2023A8PS0384H | SQL schema creation, constraints, relationships and seed/sample data |
+| Akhil Thindi | 2023AAPS0172H | Flask backend, routes, API handling and application logic |
+| Samrat Chaturvedi | 2023A7PS0125H | Frontend development (HTML/CSS/JavaScript), UI design and integration with Flask |
+| Kartikeya Srivastava | 2023A3PS0385 | Testing and debugging, test reports, project documentation and final presentation |

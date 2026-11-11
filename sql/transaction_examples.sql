@@ -11,8 +11,8 @@ WITH done AS (
  WHERE session_id=1 AND status='in_progress' AND 42.500>=start_meter_kwh
  RETURNING session_id,tariff_id,end_meter_kwh-start_meter_kwh AS energy_kwh
 )
-INSERT INTO invoices(session_id,tariff_id,energy_kwh,price_per_kwh,service_fee)
-SELECT d.session_id,d.tariff_id,d.energy_kwh,t.price_per_kwh,t.service_fee
+INSERT INTO invoices(session_id,energy_kwh,price_per_kwh,service_fee)
+SELECT d.session_id,d.energy_kwh,t.price_per_kwh,t.service_fee
 FROM done d JOIN tariffs t USING(tariff_id);
 COMMIT;
 

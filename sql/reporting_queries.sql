@@ -56,5 +56,6 @@ ORDER BY lower(r.reserved_period);
 -- Q10: Invoice/energy totals by tariff
 SELECT s.name,t.tariff_name,t.price_per_kwh,COUNT(i.invoice_id) AS invoices,
  COALESCE(SUM(i.energy_kwh),0) AS energy_kwh,COALESCE(SUM(i.total_amount),0) AS invoiced_inr
-FROM tariffs t JOIN stations s USING(station_id) LEFT JOIN invoices i USING(tariff_id)
+FROM tariffs t JOIN stations s USING(station_id) LEFT JOIN charging_sessions cs USING(tariff_id)
+LEFT JOIN invoices i ON i.session_id=cs.session_id
 GROUP BY s.name,t.tariff_name,t.price_per_kwh ORDER BY invoiced_inr DESC;
