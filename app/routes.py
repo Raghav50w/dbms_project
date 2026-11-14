@@ -10,7 +10,6 @@ QUERIES_FILE = Path(__file__).resolve().parent.parent / "sql" / "reporting_queri
 REPORTS = ["Q1", "Q2", "Q5", "Q6", "Q7"]
 
 def load_queries():
-    """Split sql/reporting_queries.sql into {"Q1": (title, sql), ...}."""
     queries, key = {}, None
     for line in QUERIES_FILE.read_text(encoding="utf-8").splitlines():
         if line.startswith("-- Q"):

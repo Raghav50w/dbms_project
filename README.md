@@ -1,15 +1,14 @@
 # ChargePoint — EV Charging Station Reservation and Billing System
 
-Full-stack DBMS course project scaffold for station discovery, port reservation, charging sessions, energy-based invoices, simulated payments, and operator reports.
+EV charging station discovery, port reservation, charging sessions, energy-based invoices, simulated payments and operator reports, built on PostgreSQL.
 
-## Mid-semester deliverables included
-- `docs/midsem_design_document.pdf` — design document, five pages maximum.
+## Repository contents
+- `docs/design_document.pdf` — final design document.
+- `docs/ER_diagram.png` — ER diagram.
 - `docs/application_design.md` — problem statement, users, assumptions, architecture, workflows, normalization, constraints.
-- `docs/ERD.mmd` — Mermaid ERD source.
 - `sql/schema.sql` — PostgreSQL schema, constraints, indexes, view and trigger.
-- `sql/reporting_queries.sql` — 10 substantial SQL queries.
+- `sql/reporting_queries.sql` — 10 SQL queries.
 - `sql/transaction_examples.sql` — reservation, session completion/invoicing and payment transactions.
-- Flask scaffold, frontend, synthetic data generator, tests, evaluation checklist.
 
 ## Stack
 PostgreSQL 15+, Python 3.11+, Flask, psycopg 3, HTML/CSS, pytest.
@@ -46,4 +45,4 @@ The seed generator is intended for a fresh schema. The data is synthetic and inc
 | Aaditya Rajput | 2023A8PS0384H | SQL schema creation, constraints, relationships and seed/sample data |
 | Akhil Thindi | 2023AAPS0172H | Flask backend, routes, API handling and application logic |
 | Samrat Chaturvedi | 2023A7PS0125H | Frontend development (HTML/CSS/JavaScript), UI design and integration with Flask |
-| Kartikeya Srivastava | 2023A3PS0385 | Testing and debugging, test reports, project documentation and final presentation |
+| Kartikeya Srivastava | 2023A3PS0385H | Testing and debugging, test reports, project documentation and final presentation |
